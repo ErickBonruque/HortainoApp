@@ -1,6 +1,7 @@
 // ignore_for_file: file_names
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../controller/pagina.controller.dart';
@@ -52,13 +53,14 @@ class ListViewAlerta extends StatefulWidget {
 }
 
 class _ListViewAlertaState extends State<ListViewAlerta> {
+  User? usuario = FirebaseAuth.instance.currentUser;
   @override
   Widget build(BuildContext context) {
     final store = Provider.of<ControlarEstado>(context);
 
     return Observer(
       builder: (BuildContext context) => StreamBuilder(
-          stream: FirebaseFirestore.instance.collection('alertas').snapshots(),
+          stream: FirebaseFirestore.instance.collection('alertas').where("idUsuario", isEqualTo: usuario?.uid).snapshots(),
           builder:
               (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
             if (!snapshot.hasData) {

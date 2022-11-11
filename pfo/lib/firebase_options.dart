@@ -25,10 +25,7 @@ class DefaultFirebaseOptions {
       case TargetPlatform.iOS:
         return ios;
       case TargetPlatform.macOS:
-        throw UnsupportedError(
-          'DefaultFirebaseOptions have not been configured for macos - '
-          'you can reconfigure this by running the FlutterFire CLI again.',
-        );
+        return macos;
       case TargetPlatform.windows:
         throw UnsupportedError(
           'DefaultFirebaseOptions have not been configured for windows - '
@@ -48,18 +45,18 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions web = FirebaseOptions(
     apiKey: 'AIzaSyBRSmGXMW0pbGHM5uYuiNBZcSahF9xDJMY',
-    appId: '1:792925715815:web:31c4f6723e3d05ff3603c2',
+    appId: '1:792925715815:web:f11a1f076088e4733603c2',
     messagingSenderId: '792925715815',
     projectId: 'hortaino',
     authDomain: 'hortaino.firebaseapp.com',
     databaseURL: 'https://hortaino-default-rtdb.firebaseio.com',
     storageBucket: 'hortaino.appspot.com',
-    measurementId: 'G-MD2LF48F95',
+    measurementId: 'G-CSNZ4LPHG9',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyAUdj68bl_NqtEx4Lx3iRFkTGnGB6jJT3Y',
-    appId: '1:792925715815:android:22d7c18c368c704d3603c2',
+    appId: '1:792925715815:android:a1251e79cae87a883603c2',
     messagingSenderId: '792925715815',
     projectId: 'hortaino',
     databaseURL: 'https://hortaino-default-rtdb.firebaseio.com',
@@ -68,7 +65,18 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions ios = FirebaseOptions(
     apiKey: 'AIzaSyBAZZfCy0DN2UO_kRmbkkHZ7v2zMP3iMbA',
-    appId: '1:792925715815:ios:468e44ab7823b5e43603c2',
+    appId: '1:792925715815:ios:26bf43ce05e6e6a43603c2',
+    messagingSenderId: '792925715815',
+    projectId: 'hortaino',
+    databaseURL: 'https://hortaino-default-rtdb.firebaseio.com',
+    storageBucket: 'hortaino.appspot.com',
+    iosClientId: '792925715815-ptd3sd4ai8ngmkg0gvqns4om2cm6vpkl.apps.googleusercontent.com',
+    iosBundleId: 'com.example.pfo',
+  );
+
+  static const FirebaseOptions macos = FirebaseOptions(
+    apiKey: 'AIzaSyBAZZfCy0DN2UO_kRmbkkHZ7v2zMP3iMbA',
+    appId: '1:792925715815:ios:26bf43ce05e6e6a43603c2',
     messagingSenderId: '792925715815',
     projectId: 'hortaino',
     databaseURL: 'https://hortaino-default-rtdb.firebaseio.com',

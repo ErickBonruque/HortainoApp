@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:pfo/pages/home.dart';
 import 'package:pfo/controller/pagina.controller.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'controller/checagemLoginPage.dart';
 import 'firebase_options.dart';
+
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -17,12 +17,9 @@ Future<void> main() async {
         create: (context) => ControlarEstado(),
       ),
     ],
-    child: MaterialApp(
+    child: const MaterialApp(
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        fontFamily: GoogleFonts.comfortaa(),
-      ),
-      home: Home(),
+      home: ChecagemLoginPage(),
     ),
   ));
 }

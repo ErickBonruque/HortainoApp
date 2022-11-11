@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:mobx/mobx.dart';
 import '../classes/alerta.dart';
@@ -13,10 +14,15 @@ abstract class _ControlarEstado with Store {
   List<Alerta> alertas = ObservableList<Alerta>.of([]);
   @observable
   List<Horta> hortas = ObservableList<Horta>.of([]);
+  @observable
+  final firebaseAuth = FirebaseAuth.instance;
+
   @action
   addAlerta(Alerta alerta) {
+    User? usuario = firebaseAuth.currentUser;
     final docAlerta = FirebaseFirestore.instance.collection("alertas").doc();
     docAlerta.set({
+      "idUsuario": usuario?.uid,
       "nome": alerta.nome,
       "descricao": alerta.desc,
       "temperatura": alerta.temperatura,
@@ -29,6 +35,7 @@ abstract class _ControlarEstado with Store {
       print(alerta);
     }
   }
+
   @action
   removerAlerta(DocumentSnapshot e) {
     FirebaseFirestore.instance.collection("alertas").doc(e.id).delete();
@@ -47,24 +54,26 @@ abstract class _ControlarEstado with Store {
 
   @action
   addHorta(Horta horta) async {
+    User? usuario = firebaseAuth.currentUser;
     final docHorta = FirebaseFirestore.instance.collection("hortas").doc();
     docHorta.set({
       "nome": horta.nome,
       "descricao": horta.desc,
       "hortalica": horta.hortalica,
       "id": docHorta.id,
+      "idUsuario": usuario?.uid,
     });
   }
 
   @action
   removerHorta(DocumentSnapshot e) async {
     var collection = FirebaseFirestore.instance.collection("alertas");
-    var snapshots = await collection.where("idHorta", isEqualTo: e["id"].toString()).get();
+    var snapshots =
+        await collection.where("idHorta", isEqualTo: e["id"].toString()).get();
     for (var doc in snapshots.docs) {
-      if((doc.get('idHorta').toString()) == (e["id"].toString())){
+      if ((doc.get('idHorta').toString()) == (e["id"].toString())) {
         await doc.reference.delete();
       }
-
     }
     FirebaseFirestore.instance.collection("hortas").doc(e.id).delete();
   }

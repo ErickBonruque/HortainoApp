@@ -48,7 +48,7 @@ class _TabBarView1State extends State<TabBarView1> {
                   margin: const EdgeInsets.only(left: 10.00),
                   child: Column(
                     children: const [
-                      Text("Umiade", style: TextStyle(fontSize: 30),),
+                      Text("Umidade", style: TextStyle(fontSize: 30),),
                       SizedBox(height: 30),
                       Text("26UR Umidade Solo", style: TextStyle(fontSize: 20),),
                       SizedBox(height: 10),

@@ -5,6 +5,7 @@ class Alerta {
   String? _temperatura;
   String? _nomeHorta;
   String? _idHorta;
+  // ignore: unnecessary_getters_setters
   String? get nome => _nome;
 
  set nome(String? value) => _nome = value;

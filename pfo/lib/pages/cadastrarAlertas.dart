@@ -1,5 +1,6 @@
 // ignore_for_file: file_names
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:pfo/classes/dados.dart';
 import 'package:pfo/controller/pagina.controller.dart';
@@ -15,6 +16,7 @@ class CadastrarAlerta extends StatefulWidget {
 }
 
 class _CadastrarAlertaState extends State<CadastrarAlerta> {
+  User? usuario = FirebaseAuth.instance.currentUser;
   TextEditingController nome = TextEditingController();
   TextEditingController desc = TextEditingController();
   TextEditingController umidade = TextEditingController();
@@ -22,19 +24,6 @@ class _CadastrarAlertaState extends State<CadastrarAlerta> {
   late AsyncSnapshot<QuerySnapshot> snapshot;
   String dropdownValue = Dados.ds!["nome"].toString();
   String idHortaDrop = Dados.ds!.id.toString();
-
-  /*@override
-  // ignore: must_call_super
-  void initState(){
-    AsyncSnapshot<QuerySnapshot> snap = FirebaseFirestore.instance
-        .collection('hortas')
-        .snapshots() as AsyncSnapshot<QuerySnapshot<Object?>>;
-    snap.data?.docs.map((e) {
-      QueryDocumentSnapshot<Object?>? ds = snap.data?.docs[0];
-      dropdownValue = ds!["nome"];
-      idHortaDrop = ds.id;
-    });
-  }*/
   @override
   Widget build(BuildContext context) {
     final store = Provider.of<ControlarEstado>(context);
@@ -88,28 +77,28 @@ class _CadastrarAlertaState extends State<CadastrarAlerta> {
                   labelStyle: TextStyle(fontSize: 18)),
             ),
           ),
-
           Container(
             alignment: Alignment.centerLeft,
             child: StreamBuilder(
                 stream:
-                    FirebaseFirestore.instance.collection('hortas').snapshots(),
+                    FirebaseFirestore.instance.collection('hortas').where("idUsuario", isEqualTo: usuario?.uid).snapshots(),
                 builder: (BuildContext context,
                     AsyncSnapshot<QuerySnapshot> snapshot) {
                   if (!snapshot.hasData) {
                     return const Center(
                       child: CircularProgressIndicator(
-                        backgroundColor: Colors.red,
-                        valueColor: AlwaysStoppedAnimation<Color>(Colors.teal),
+                        backgroundColor: Colors.blue,
+                        valueColor: AlwaysStoppedAnimation<Color>(
+                            Color.fromARGB(255, 0, 71, 129)),
                       ),
                     );
                   }
                   return DropdownButton<String>(
                     items: snapshot.data!.docs.map((e) {
-                      return DropdownMenuItem<String>(
-                        value: e["nome"].toString(),
-                        child: Text(e["nome"]),
-                      );
+                        return DropdownMenuItem<String>(
+                          value: e["nome"].toString(),
+                          child: Text(e["nome"]),
+                        );
                     }).toList(),
                     value: dropdownValue,
                     dropdownColor: Colors.white,
@@ -124,7 +113,10 @@ class _CadastrarAlertaState extends State<CadastrarAlerta> {
                     onChanged: (String? newValue) {
                       setState(() {
                         dropdownValue = newValue!;
-                        QuerySnapshot query = FirebaseFirestore.instance.collection("hortas").where("nome", isEqualTo: newValue).get() as QuerySnapshot<Object?>;
+                        QuerySnapshot query = FirebaseFirestore.instance
+                            .collection("hortas")
+                            .where("nome", isEqualTo: newValue)
+                            .get() as QuerySnapshot<Object?>;
                         for (var element in query.docs) {
                           idHortaDrop = element.get("id");
                         }

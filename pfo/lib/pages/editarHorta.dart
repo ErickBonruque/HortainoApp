@@ -10,7 +10,7 @@ import '../controller/pagina.controller.dart';
 // ignore: must_be_immutable
 class EditarHorta extends StatefulWidget {
   final DocumentSnapshot e;
-  EditarHorta(this.e, {Key? key}) : super(key: key);
+  const EditarHorta(this.e, {Key? key}) : super(key: key);
   @override
   // ignore: library_private_types_in_public_api
   _EditarHortaState createState() => _EditarHortaState();
